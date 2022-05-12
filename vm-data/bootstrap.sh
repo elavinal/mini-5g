@@ -9,7 +9,7 @@ sudo apt-get update -q
 
 # ----- Dependencies and other usefull tools -----
 echo "Installing dependencies"
-sudo apt-get install -q -y --no-install-recommends --fix-missing\
+sudo apt-get install -qq -y --no-install-recommends --fix-missing\
   gcc g++ \
   make \
   git \
@@ -65,7 +65,7 @@ sudo apt-get install -q -y --no-install-recommends --fix-missing\
   git gcc g++ cmake autoconf libtool pkg-config libmnl-dev libyaml-dev
 # TOFIX    default: /tmp/vagrant-shell: line 66: go: command not found
 # pb with source ~/.bashrc ?
-go get -u github.com/sirupsen/logrus
+/usr/local/go/bin/go get -u github.com/sirupsen/logrus
 
 # ----- Install Free5GC's UPF -----
 cd ~
@@ -82,5 +82,7 @@ git clone -b v0.5.3 https://github.com/free5gc/gtp5g.git
 cd gtp5g
 make
 sudo make install
+
+sudo reboot
 
 echo "**** DONE PROVISIONING VM ****"
