@@ -17,6 +17,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "file", source: "5g-simple-topo.py", destination: "$HOME/mini-5g/"
   config.vm.provision "file", source: "config/free5gc-gnb.yaml", destination: "$HOME/tmp/"
   config.vm.provision "file", source: "config/free5gc-ue.yaml", destination: "$HOME/tmp/"
+  config.vm.provision "file", source: "config/upfcfg.yaml", destination: "$HOME/tmp/"
   config.vm.provision "file", source: "patches/run_only_upf.patch", destination: "$HOME/tmp/"
   config.vm.provision "shell", privileged: false, path: "bootstrap.sh"
 

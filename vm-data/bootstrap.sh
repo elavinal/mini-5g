@@ -9,7 +9,7 @@ sudo apt-get update -q
 
 # ----- Dependencies and other usefull tools -----
 echo "Installing dependencies"
-sudo apt-get install -qq -y --no-install-recommends --fix-missing\
+sudo apt-get install -q -y --no-install-recommends --fix-missing\
   gcc g++ \
   make \
   git \
@@ -44,7 +44,8 @@ make
 
 # Update UERANSIM config files
 # (files have already been provisioned in $HOME/tmp by Vagrant)
-cp ~/tmp/*.yaml ~/UERANSIM/config/
+cp ~/tmp/free5gc-gnb.yaml ~/UERANSIM/config/
+cp ~/tmp/free5gc-ue.yaml ~/UERANSIM/config/
 
 # ----- Free5GC UPF -----
 
@@ -58,14 +59,18 @@ echo 'export GOROOT=/usr/local/go' >> ~/.bashrc
 echo 'export PATH=$PATH:$GOPATH/bin:$GOROOT/bin' >> ~/.bashrc
 echo 'export GO111MODULE=auto' >> ~/.bashrc
 source ~/.bashrc
+# doing export manually (source ~/.bashrc doesn't seem to work with Vagrant...)
+export GOPATH=$HOME/go
+export GOROOT=/usr/local/go
+export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+export GO111MODULE=auto
+# clean up
 rm go1.14.4.linux-amd64.tar.gz
 
 # ----- User-plane Supporting Packages -----
-sudo apt-get install -q -y --no-install-recommends --fix-missing\
+sudo apt-get install -q -y \
   git gcc g++ cmake autoconf libtool pkg-config libmnl-dev libyaml-dev
-# TOFIX    default: /tmp/vagrant-shell: line 66: go: command not found
-# pb with source ~/.bashrc ?
-/usr/local/go/bin/go get -u github.com/sirupsen/logrus
+go get -u github.com/sirupsen/logrus
 
 # ----- Install Free5GC's UPF -----
 cd ~
@@ -74,6 +79,8 @@ cd free5gc
 make upf
 # Apply patch to run only UPF
 patch run.sh ~/tmp/run_only_upf.patch
+# Update UPF's config (N3 and N4 addresses to run in mininet)
+cp ~/tmp/upfcfg.yaml ~/free5gc/config/
 
 # ----- Install 5G GTP-U kernel module -----
 sudo apt install linux-headers-$(uname -r)
@@ -83,6 +90,6 @@ cd gtp5g
 make
 sudo make install
 
-sudo reboot
-
 echo "**** DONE PROVISIONING VM ****"
+
+sudo reboot
