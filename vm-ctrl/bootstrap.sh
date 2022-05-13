@@ -66,5 +66,6 @@ cd ~
 git clone https://github.com/shynuu/free5gc-populate.git
 cd free5gc-populate
 go build
+./free5gc-populate --config config.yaml 
 
 echo "**** DONE PROVISIONING VM ****"
