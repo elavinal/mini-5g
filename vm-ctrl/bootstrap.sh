@@ -9,8 +9,8 @@ sudo apt-get update -q
 
 # ----- Installing usefull tools -----
 echo "Installing some tools..."
-sudo apt-get install -q -y --no-install-recommends --fix-missing\
-  gcc g++ make \
+sudo apt-get install -q -y \
+  gcc g++ make cmake autoconf \
   git \
   vim \
   curl wget \
@@ -52,7 +52,7 @@ sudo systemctl start mongodb
 cd ~
 git clone --recursive -b v3.1.0 -j `nproc` https://github.com/free5gc/free5gc.git
 cd free5gc
-make
+make amf ausf nrf nssf pcf smf udm udr n3iwf
 
 # Update free5GC config files (AMF and SMF)
 # (files have already been provisioned in $HOME/tmp by Vagrant)
