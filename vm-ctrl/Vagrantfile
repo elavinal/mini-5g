@@ -16,6 +16,7 @@ Vagrant.configure("2") do |config|
   config.vm.host_name = "free5GC"
   config.vm.provision "file", source: "config/amfcfg.yaml", destination: "$HOME/tmp/"
   config.vm.provision "file", source: "config/smfcfg.yaml", destination: "$HOME/tmp/"
+  config.vm.provision "file", source: "patches/run_without_upf.patch", destination: "$HOME/tmp/"
   config.vm.provision "shell", privileged: false, path: "bootstrap.sh"
 
   # Disable automatic box update checking. If you disable this, then
