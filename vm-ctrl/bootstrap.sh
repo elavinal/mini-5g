@@ -10,6 +10,7 @@ sudo apt-get update -q
 # ----- Installing usefull tools -----
 echo "Installing some tools..."
 sudo apt-get install -q -y --no-install-recommends --fix-missing\
+  gcc g++ make \
   git \
   vim \
   curl wget \
