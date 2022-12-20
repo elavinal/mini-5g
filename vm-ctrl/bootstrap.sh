@@ -21,21 +21,21 @@ sudo apt-get install -q -y \
 
 # ----- Go -----
 cd ~
-wget https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz
-sudo tar -C /usr/local -zxvf go1.14.4.linux-amd64.tar.gz
+wget https://dl.google.com/go/go1.17.linux-amd64.tar.gz
+sudo tar -C /usr/local -zxf go1.17.linux-amd64.tar.gz
 mkdir -p ~/go/{bin,pkg,src}
 echo 'export GOPATH=$HOME/go' >> ~/.bashrc
 echo 'export GOROOT=/usr/local/go' >> ~/.bashrc
 echo 'export PATH=$PATH:$GOPATH/bin:$GOROOT/bin' >> ~/.bashrc
 echo 'export GO111MODULE=auto' >> ~/.bashrc
 source ~/.bashrc
-# doing export manually (source ~/.bashrc doesn't seem to work with Vagrant...)
+# doing export manually (source ~/.bashrc doesn't seem to work with Vagrant provisioning...)
 export GOPATH=$HOME/go
 export GOROOT=/usr/local/go
 export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
 export GO111MODULE=auto
 # clean up
-rm go1.14.4.linux-amd64.tar.gz
+rm go1.17.linux-amd64.tar.gz
 
 # ---- Control-plane Supporting Packages -----
 echo "Installing control-plane packages..."
@@ -46,11 +46,10 @@ sudo systemctl start mongodb
 # NOTE. These packages shouldn't be necessary in this VM?
 # echo "Installing user-plane packages..."
 # sudo apt -y install git gcc g++ cmake autoconf libtool pkg-config libmnl-dev libyaml-dev
-# go get -u github.com/sirupsen/logrus
 
 # ----- Install Control Plane Elements -----
 cd ~
-git clone --recursive -b v3.1.0 -j `nproc` https://github.com/free5gc/free5gc.git
+git clone --recursive -b v3.2.1 -j `nproc` https://github.com/free5gc/free5gc.git
 cd free5gc
 make amf ausf nrf nssf pcf smf udm udr n3iwf
 # Apply patch to run without UPF
