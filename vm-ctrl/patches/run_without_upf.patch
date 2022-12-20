@@ -1,17 +1,17 @@
 diff --git a/run.sh b/run.sh
-index ac53da5..70440a1 100755
+index 971f84e..d585b63 100755
 --- a/run.sh
 +++ b/run.sh
-@@ -98,11 +98,11 @@ if [ $PCAP_MODE -ne 0 ]; then
+@@ -102,11 +102,11 @@ if [ $PCAP_MODE -ne 0 ]; then
      PID_LIST+=($SUDO_TCPDUMP_PID $TCPDUMP_PID)
  fi
 
--sudo -E ./NFs/upf/build/bin/free5gc-upfd -c ./config/upfcfg.yaml -l ${LOG_PATH}upf.log -g ${LOG_PATH}${LOG_NAME} &
+-sudo -E ./bin/upf -c ./config/upfcfg.yaml -l ${LOG_PATH}upf.log -lc ${LOG_PATH}${LOG_NAME} &
 -SUDO_UPF_PID=$!
 -sleep 0.1
 -UPF_PID=$(pgrep -P $SUDO_UPF_PID)
 -PID_LIST+=($SUDO_UPF_PID $UPF_PID)
-+# sudo -E ./NFs/upf/build/bin/free5gc-upfd -c ./config/upfcfg.yaml -l ${LOG_PATH}upf.log -g ${LOG_PATH}${LOG_NAME} &
++# sudo -E ./bin/upf -c ./config/upfcfg.yaml -l ${LOG_PATH}upf.log -lc ${LOG_PATH}${LOG_NAME} &
 +# SUDO_UPF_PID=$!
 +# sleep 0.1
 +# UPF_PID=$(pgrep -P $SUDO_UPF_PID)
