@@ -45,36 +45,35 @@ make
 # Update UERANSIM config files
 # (files have already been provisioned in $HOME/tmp by Vagrant)
 cp ~/tmp/free5gc-gnb.yaml ~/UERANSIM/config/
-cp ~/tmp/free5gc-ue.yaml ~/UERANSIM/config/
+# cp ~/tmp/free5gc-ue.yaml ~/UERANSIM/config/
 
 # ----- Free5GC UPF -----
 
 # ----- Go -----
 cd ~
-wget https://dl.google.com/go/go1.14.4.linux-amd64.tar.gz
-sudo tar -C /usr/local -zxvf go1.14.4.linux-amd64.tar.gz
+wget https://dl.google.com/go/go1.17.linux-amd64.tar.gz
+sudo tar -C /usr/local -zxf go1.17.linux-amd64.tar.gz
 mkdir -p ~/go/{bin,pkg,src}
 echo 'export GOPATH=$HOME/go' >> ~/.bashrc
 echo 'export GOROOT=/usr/local/go' >> ~/.bashrc
 echo 'export PATH=$PATH:$GOPATH/bin:$GOROOT/bin' >> ~/.bashrc
 echo 'export GO111MODULE=auto' >> ~/.bashrc
 source ~/.bashrc
-# doing export manually (source ~/.bashrc doesn't seem to work with Vagrant...)
+# doing export manually (source ~/.bashrc doesn't seem to work with Vagrant provisioning...)
 export GOPATH=$HOME/go
 export GOROOT=/usr/local/go
 export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
 export GO111MODULE=auto
 # clean up
-rm go1.14.4.linux-amd64.tar.gz
+rm go1.17.linux-amd64.tar.gz
 
 # ----- User-plane Supporting Packages -----
 sudo apt-get install -q -y \
   git gcc g++ cmake autoconf libtool pkg-config libmnl-dev libyaml-dev
-go get -u github.com/sirupsen/logrus
 
 # ----- Install Free5GC's UPF -----
 cd ~
-git clone --recursive -b v3.1.0 -j `nproc` https://github.com/free5gc/free5gc.git
+git clone --recursive -b v3.2.1 -j `nproc` https://github.com/free5gc/free5gc.git
 cd free5gc
 make upf
 # Apply patch to run only UPF
@@ -85,7 +84,7 @@ cp ~/tmp/upfcfg.yaml ~/free5gc/config/
 # ----- Install 5G GTP-U kernel module -----
 sudo apt install linux-headers-$(uname -r)
 cd ~
-git clone -b v0.5.3 https://github.com/free5gc/gtp5g.git
+git clone https://github.com/free5gc/gtp5g.git
 cd gtp5g
 make
 sudo make install
